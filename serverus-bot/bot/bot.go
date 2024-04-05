@@ -1,44 +1,48 @@
 package bot
 
 import (
-	"fmt"
+	"log"
 	"os"
 	"os/signal"
 	"syscall"
-
 	"github.com/bwmarrin/discordgo"
 )
+
 type Bot struct {
 	Session *discordgo.Session
 }
 
-func Run(token string) (error) {
+func Init(token string) (*Bot, error) {
 	session, err := discordgo.New("Bot " + token)
 	if err != nil {
-		return fmt.Errorf("error establishing Discord session: %v", err)
+		return nil, err
 	}
-	
+
+	session.Identify.Intents = discordgo.IntentsAllWithoutPrivileged
+
 	bot := &Bot{
 		Session: session,
 	}
 
-	// Register Bot Handlers
+	return bot, nil
+}
+
+func (bot *Bot) Run() {
+
+	session := bot.Session
+
 	bot.RegisterHandlers()
 
-	session.Identify.Intents = discordgo.IntentsAllWithoutPrivileged
-
-	err = session.Open()
+	err := session.Open()
 	if err != nil {
-		return fmt.Errorf("error opening connection to Discord: %v", err)
+		log.Fatal(err)
 	}
 	defer session.Close()
 
-	fmt.Println("Serverus-Bot online!")
+	log.Println("Serverus is online!")
 
 	// Create a channel to keep this function running until it terminates.
 	channel := make(chan os.Signal, 1)
 	signal.Notify(channel, syscall.SIGINT, syscall.SIGTERM, os.Interrupt)
 	<-channel
-
-	return nil
 }
