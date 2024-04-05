@@ -8,13 +8,22 @@ import (
 
 	"github.com/bwmarrin/discordgo"
 )
+type Bot struct {
+	Session *discordgo.Session
+}
 
 func Run(token string) (error) {
 	session, err := discordgo.New("Bot " + token)
 	if err != nil {
 		return fmt.Errorf("error establishing Discord session: %v", err)
 	}
-	// Bot Handlers
+	
+	bot := &Bot{
+		Session: session,
+	}
+
+	// Register Bot Handlers
+	bot.RegisterHandlers()
 
 	session.Identify.Intents = discordgo.IntentsAllWithoutPrivileged
 
