@@ -25,7 +25,6 @@ func Initialize(app *Config) {
         Handler: app.routes(),
 	}
 
-
 	go func() {
 		if err := srv.ListenAndServe(); err != nil && err != http.ErrServerClosed {
 			log.Fatalf("ListenAndServe error: %v\n", err)

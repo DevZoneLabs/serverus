@@ -32,7 +32,7 @@ func main() {
 	waitGroup.Add(1)
 	go func() {
 		defer waitGroup.Done()
-		b.Run()
+		b.Run() // Run Bot
 	}()
 
 	waitGroup.Wait()

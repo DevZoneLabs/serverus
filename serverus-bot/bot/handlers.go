@@ -11,7 +11,7 @@ func (b *Bot) helloWorld(session *discordgo.Session, message *discordgo.MessageC
 		return 
 	}
 
-	if message.Content == "hello" {
+	if message.Content == "Hello" {
 		session.ChannelMessageSend(message.ChannelID, "World!")
 	}
 }
