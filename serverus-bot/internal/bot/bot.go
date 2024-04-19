@@ -5,6 +5,7 @@ import (
 	"os"
 	"os/signal"
 	"syscall"
+
 	"github.com/bwmarrin/discordgo"
 )
 
@@ -20,7 +21,7 @@ func Init(token string) (*Bot, error) {
 
 	session.Identify.Intents = discordgo.IntentsAllWithoutPrivileged
 
-	bot := &Bot{
+	bot := &Bot {
 		Session: session,
 	}
 
@@ -29,20 +30,17 @@ func Init(token string) (*Bot, error) {
 
 func (bot *Bot) Run() {
 
-	session := bot.Session
-
-	bot.RegisterHandlers()
-
-	err := session.Open()
+	err := bot.Session.Open()
 	if err != nil {
-		log.Fatal(err)
+		log.Panic(err)
 	}
-	defer session.Close()
 
-	log.Println("Serverus is online!")
+	log.Println("Serverus is online")
+	defer bot.Session.Close()
 
-	// Create a channel to keep this function running until it terminates.
 	channel := make(chan os.Signal, 1)
 	signal.Notify(channel, syscall.SIGINT, syscall.SIGTERM, os.Interrupt)
-	<-channel
+
+	<- channel
+	log.Println("Interrupted!")
 }
