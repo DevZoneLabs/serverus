@@ -11,5 +11,7 @@ func (server *Config) routes() *chi.Mux {
 
 	mux.Use(middleware.Heartbeat("/ping"))
 
+	mux.Get("/healthcheck", healthCheck)
+
 	return mux
 }
