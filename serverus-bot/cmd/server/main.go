@@ -42,7 +42,7 @@ func main() {
 
 	srv := &http.Server{
 		Addr: portNum,
-		Handler: app.routes(),
+		// TO-DO Add Handler: app.routes()
 	}
 
 	go func() {
