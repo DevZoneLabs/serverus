@@ -18,7 +18,10 @@ type Config struct {
 	Bot bot.Bot
 }
 
-const portNum = ":80"
+const (
+	portNum = ":80"
+	gracePeriod = 15
+)
 
 func main() {
 
@@ -80,7 +83,7 @@ func main() {
 
 	log.Println("Bot Not Taking New Requests")
 
-	ctx, cancelTimeOut := context.WithTimeout(ctx, 15 * time.Second)
+	ctx, cancelTimeOut := context.WithTimeout(ctx, gracePeriod * time.Second)
 	defer cancelTimeOut()
 
 	// Trigger a server shutdown with the same context
