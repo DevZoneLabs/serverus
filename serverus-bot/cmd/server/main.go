@@ -75,10 +75,14 @@ func main() {
 	// Handle graceful shutdown
 	log.Println("Shutting down...")
 
-	// Shutdown the Bot
-	cancel()
+	// Prevent the Bot from Accepting any requests
+	bot.SetAcceptingRequests(false)
 
-	ctx, cancelTimeOut := context.WithTimeout(context.Background(), 15 * time.Second)
+	log.Println("Bot Not Taking New Requests")
+	
+	time.Sleep(10 * time.Second)
+
+	ctx, cancelTimeOut := context.WithTimeout(ctx, 15 * time.Second)
 	defer cancelTimeOut()
 
 	// Trigger a server shutdown with the same context
@@ -86,6 +90,11 @@ func main() {
 		log.Fatalf("Server Shutdown Failed:%+v", err)
 	}
 	log.Println("Server stopped gracefully")
+
+	// Stop the Bot
+	cancel()
+
+	wg.Wait()
 
 	log.Println("Serverus-Bot Service Offline")
 }

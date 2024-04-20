@@ -9,6 +9,7 @@ import (
 
 type Bot struct {
 	Session *discordgo.Session
+	AcceptingRequests bool
 }
 
 func Init(token string) (*Bot, error) {
@@ -17,11 +18,14 @@ func Init(token string) (*Bot, error) {
 		return nil, err
 	}
 
-	session.Identify.Intents = discordgo.IntentsAllWithoutPrivileged
-
 	bot := &Bot {
 		Session: session,
+		AcceptingRequests: true,
 	}
+
+	bot.RegisterHandlers()
+
+	session.Identify.Intents = discordgo.IntentsAllWithoutPrivileged
 
 	return bot, nil
 }
@@ -45,3 +49,10 @@ func (bot *Bot) Run(ctx context.Context) {
 	log.Println("Bot Stopped")
 }
 
+func (bot *Bot) SetAcceptingRequests(state bool) {
+	bot.AcceptingRequests = state
+}
+
+func (bot *Bot) GetAcceptingRequest() bool {
+	return bot.AcceptingRequests
+}
