@@ -28,9 +28,9 @@ func main() {
 		log.Panic(err)
 	}
 
-	app := Config {
-		Bot: *bot,
-	}
+	// app := Config {
+	// 	Bot: *bot,
+	// }
 
 	var waitGroup sync.WaitGroup
 	waitGroup.Add(1)
@@ -42,7 +42,7 @@ func main() {
 
 	srv := &http.Server{
 		Addr: portNum,
-		Handler: app.routes(),
+		// TO-DO Add Handler: app.routes()
 	}
 
 	go func() {
