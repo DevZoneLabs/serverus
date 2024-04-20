@@ -1,21 +1,15 @@
 package main
 
 import (
-	"net/http"
+	"github.com/go-chi/chi/v5"
+	"github.com/go-chi/chi/v5/middleware"
 )
 
-func (server *Config) routes() http.Handler {
+func (server *Config) routes() *chi.Mux {
 
-	router := http.NewServeMux()
+	mux := chi.NewMux()
 
-	// TO-DO
-	// ADD healthcheck handler
+	mux.Use(middleware.Heartbeat("/ping"))
 
-	return router
-}
-
-func healthCheck(w http.ResponseWriter, r *http.Request) {
-
-	// TO-DO
-	// Implement healthcheck logic
+	return mux
 }

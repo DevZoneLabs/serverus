@@ -2,9 +2,7 @@ package bot
 
 import (
 	"log"
-	"os"
-	"os/signal"
-	"syscall"
+	"context"
 
 	"github.com/bwmarrin/discordgo"
 )
@@ -28,19 +26,22 @@ func Init(token string) (*Bot, error) {
 	return bot, nil
 }
 
-func (bot *Bot) Run() {
+func (bot *Bot) Run(ctx context.Context) {
 
 	err := bot.Session.Open()
 	if err != nil {
 		log.Panic(err)
 	}
-
-	log.Println("Serverus is online")
 	defer bot.Session.Close()
 
-	channel := make(chan os.Signal, 1)
-	signal.Notify(channel, syscall.SIGINT, syscall.SIGTERM, os.Interrupt)
+	log.Println("Serverus is online")
+	
+	<- ctx.Done()
 
-	<- channel
-	log.Println("Interrupted!")
+	if err := bot.Session.Close(); err != nil {
+		log.Fatal("Error shutting down the Bot: ", err)
+	}
+
+	log.Println("Bot Stopped")
 }
+
