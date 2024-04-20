@@ -2,15 +2,14 @@ package bot
 
 import (
 	"log"
-	"os"
-	"os/signal"
-	"syscall"
+	"context"
 
 	"github.com/bwmarrin/discordgo"
 )
 
 type Bot struct {
 	Session *discordgo.Session
+	AcceptingRequests bool
 }
 
 func Init(token string) (*Bot, error) {
@@ -19,28 +18,41 @@ func Init(token string) (*Bot, error) {
 		return nil, err
 	}
 
-	session.Identify.Intents = discordgo.IntentsAllWithoutPrivileged
-
 	bot := &Bot {
 		Session: session,
+		AcceptingRequests: true,
 	}
+
+	bot.RegisterHandlers()
+
+	session.Identify.Intents = discordgo.IntentsAllWithoutPrivileged
 
 	return bot, nil
 }
 
-func (bot *Bot) Run() {
+func (bot *Bot) Run(ctx context.Context) {
 
 	err := bot.Session.Open()
 	if err != nil {
 		log.Panic(err)
 	}
-
-	log.Println("Serverus is online")
 	defer bot.Session.Close()
 
-	channel := make(chan os.Signal, 1)
-	signal.Notify(channel, syscall.SIGINT, syscall.SIGTERM, os.Interrupt)
+	log.Println("Serverus is online")
+	
+	<- ctx.Done()
 
-	<- channel
-	log.Println("Interrupted!")
+	if err := bot.Session.Close(); err != nil {
+		log.Fatal("Error shutting down the Bot: ", err)
+	}
+
+	log.Println("Bot Stopped")
+}
+
+func (bot *Bot) SetAcceptingRequests(state bool) {
+	bot.AcceptingRequests = state
+}
+
+func (bot *Bot) GetAcceptingRequest() bool {
+	return bot.AcceptingRequests
 }
