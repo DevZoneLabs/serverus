@@ -28,9 +28,9 @@ func main() {
 		log.Panic(err)
 	}
 
-	app := Config {
-		Bot: *bot,
-	}
+	// app := Config {
+	// 	Bot: *bot,
+	// }
 
 	var waitGroup sync.WaitGroup
 	waitGroup.Add(1)
