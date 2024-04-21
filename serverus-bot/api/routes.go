@@ -10,7 +10,7 @@ func (s *Server) routes() *chi.Mux {
 
 	mux.Use(middleware.Heartbeat("/ping"))
 
-	mux.Get("/healthcheck", healthCheck)
+	mux.Get("/healthcheck", s.healthCheck)
 
 	return mux
 }
