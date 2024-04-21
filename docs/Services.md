@@ -11,11 +11,17 @@ This service has two main purposes as it takes care of:
 
 #### package\_structure
 
-- **cmd/server/**: Contains the main application executable and any supporting files.
-    - **main.go**: Entry point of the application. It will start a DiscordBot Session as well as a server.
-    - **routes.go**: Contains the code responsible for defining the routes and corresponding handlers for the HTTP endpoints of the application.
-- **internal/**: Contains packages that internal to the project and are not intended to be used outside the project.
-    - **bot/**: Source code for bot implementation / handlers.
+- **serverus-bot**:
+    - **cmd/**: Contains the main application executable.
+        - **main.go**: Entry point of the application. It will start a DiscordBot Session as well as a server.
+    - **bot/**:  Source code for bot implementation / handlers.
+        - **bot.go**: Handles Bot instance, running, stopping, registering handlers.
+        - **handlers.go**: Handlers event interaction from the Discord App
+    - **api/**: Server Implementation
+        - **server.go**: Server initialization and configuration
+        - **routes.go**: Server Router configuration. Active endpoints, middlewares, routes, etc.
+        - **handlers.go**: Endpoints implementation
+
 
 
 
