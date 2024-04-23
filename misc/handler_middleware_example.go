@@ -60,6 +60,7 @@ func (m *Math) DoOperation(fn func(int) int){ // Notice we still take the same t
 		// New Logic
 		// Checks if we can't do more
 		if !m.canDoMore {
+			fmt.Println("Sorry, I can't doMore!")
 			return -1
 		}
 
