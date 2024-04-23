@@ -1,3 +1,3 @@
-module handler_middleware_example
+module misc
 
 go 1.22.2
