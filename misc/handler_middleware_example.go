@@ -44,7 +44,7 @@ type Math struct {
 //
 // 1. We cannot edit the DoOperation as it is part of a anohter package.
 // 2. We would need to include the logic inside each operation function we implement
-//    and that function will need to an method of the Math struct, and we don't want that since
+//    and that function will need to become a method of the Math struct, and we don't want that since
 // 	  the operation function should be only called by DoOperation
 // Example
 
