@@ -39,7 +39,7 @@ type Math struct {
 	canDoMore bool
 }
 
-// The idea will be to modify each operation function to return 0 if
+// The idea will be to modify each operation function to return -1 if
 // canDoMore is set up to false. But we have two problems
 //
 // 1. We cannot edit the DoOperation as it is part of a anohter package.
