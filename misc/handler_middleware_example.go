@@ -95,6 +95,7 @@ func main() {
 	operation.DoOperation(MultiplyByTwo) // 20
 	operation.DoOperation(DivideByTwo)   // 5
 
+	// Part 2
 	math := &Math{
 		operation: operation,
 		canDoMore: false,
@@ -103,6 +104,7 @@ func main() {
 	math.DoOperation(MultiplyByTwo) // -1
 	math.DoOperation(DivideByTwo)   // -1
 
+	// Modifying canDoMore
 	math.canDoMore = true
 
 	math.DoOperation(MultiplyByTwo) // -20
