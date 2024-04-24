@@ -42,7 +42,7 @@ type Math struct {
 // The idea will be to modify each operation function to return 0 if
 // canDoMore is set up to false. But we have two problems
 //
-// 1. We cannot edit the DoOperation as it is part of a package.
+// 1. We cannot edit the DoOperation as it is part of a anohter package.
 // 2. We would need to include the logic inside each operation function we implement
 //    and that function will need to an method of the Math struct, and we don't want that since
 // 	  the operation function should be only called by DoOperation
