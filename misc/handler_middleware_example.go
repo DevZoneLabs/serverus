@@ -14,7 +14,7 @@ type Operation struct{}
 
 func (o *Operation) DoOperation(fn func(int) int) {
 	// We don't have control of the inner implementation, we just know that it will do whatever
-	// the function we pass does
+	// and call our function fn at some point.
 	result := fn(10)
 	fmt.Println("Result of the operation: ", result)
 }
