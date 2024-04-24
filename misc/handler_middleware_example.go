@@ -32,7 +32,7 @@ func DivideByTwo(val int) int {
 // Part 2
 // I don't always want the function to do the same since in my application I have a point
 // in which I cannot do more things.
-// In this case, my application is a Math object with two element
+// In this case, my application is a Math object with two elements
 
 type Math struct {
 	operation *Operation
