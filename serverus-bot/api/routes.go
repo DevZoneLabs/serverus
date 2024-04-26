@@ -1,16 +1,15 @@
 package api
 
 import (
-	"github.com/go-chi/chi/v5"
-	"github.com/go-chi/chi/v5/middleware"
+	"net/http"
 )
 
-func (s *Server) routes() *chi.Mux {
-	mux := chi.NewMux()
+func (s *Server) routes() *http.ServeMux {
+	mux := http.NewServeMux();
 
-	mux.Use(middleware.Heartbeat("/ping"))
+	mux.HandleFunc("GET /healthcheck", s.healthCheck)
 
-	mux.Get("/healthcheck", s.healthCheck)
+	//mux.HandleFunc ("POST /sendMessage" ,s.sendMessage)
 
 	return mux
 }
