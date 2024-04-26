@@ -25,6 +25,7 @@ func main() {
 		log.Println(err)
 	}
 
+	log.Println(os.Getenv("SERVERUS_TOKEN"))
 	serverus := bot.NewBot(os.Getenv("SERVERUS_TOKEN"))
 
 	server := api.NewServer(portNum, serverus)
