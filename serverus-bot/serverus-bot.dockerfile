@@ -17,4 +17,4 @@ RUN mkdir /app
 
 COPY --from=builder /app/serverusBotServer /app
 
-CMD [ "sh" ]
+CMD [ "/app/serverusBotServer" ]
