@@ -1,0 +1,23 @@
+version: '3.9'
+
+services:
+  serverus-bot-server:
+    container_name: serverus-bot-server
+    image: guillesaez15/serverus_serverus_bot_server:latest
+    build:
+      context: ./serverus-bot
+      dockerfile: serverus-bot.dockerfile
+    restart: always
+    deploy:
+      mode: replicated
+      replicas: 1
+    env_file:
+      - .env
+    ports:
+      - '83:80'
+    networks:
+      - serverus-bot
+
+networks:
+  serverus-bot:
+    driver: bridge
