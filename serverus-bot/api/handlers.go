@@ -40,6 +40,7 @@ func (s *Server) sendChannelMessage(w http.ResponseWriter, r *http.Request) {
 	var smr SendMessageRequest
 	if err := json.NewDecoder(r.Body).Decode(&smr); err != nil {
 		w.WriteHeader(http.StatusBadRequest)
+		return
 	}
 
 	msg_id, err := s.bot.SendChannelMessage(smr.ChannelID, smr.Message)
