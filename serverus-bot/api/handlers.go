@@ -15,6 +15,7 @@ func (s *Server) healthCheck(w http.ResponseWriter, r *http.Request) {
 	if err := json.NewDecoder(r.Body).Decode(&hcr); err != nil {
 
 		w.WriteHeader(http.StatusBadRequest)
+		return
 	}
 
 	err := s.bot.HealthCheckMessage(hcr.ChannelID)
