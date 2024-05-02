@@ -5,11 +5,10 @@ import (
 )
 
 func (s *Server) routes() *http.ServeMux {
-	mux := http.NewServeMux();
+	mux := http.NewServeMux()
 
 	mux.HandleFunc("GET /healthcheck", s.healthCheck)
-
-	//mux.HandleFunc ("POST /sendMessage" ,s.sendMessage)
+	mux.HandleFunc("POST /serverusapi/v1/sendchannelmessage", s.sendChannelMessage)
 
 	return mux
 }

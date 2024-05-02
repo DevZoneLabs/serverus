@@ -3,16 +3,82 @@
 		"_postman_id": "ddae85c6-5093-406c-9f84-1de29f541355",
 		"name": "Serverus",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "22441380"
+		"_exporter_id": "22441380",
+		"_collection_link": "https://blue-meadow-288376.postman.co/workspace/Serverus~635ee692-a457-4f92-bc45-0404e6d5dc8c/collection/22441380-ddae85c6-5093-406c-9f84-1de29f541355?action=share&source=collection_link&creator=22441380"
 	},
 	"item": [
 		{
 			"name": "Healthcheck",
 			"request": {
 				"method": "GET",
-				"header": []
+				"header": [],
+				"url": {
+					"raw": "{{serverus-domain}}/healthcheck",
+					"host": [
+						"{{serverus-domain}}"
+					],
+					"path": [
+						"healthcheck"
+					]
+				}
 			},
 			"response": []
+		},
+		{
+			"name": "Send Channel Message",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"channel_id\": {{channel-id}},\n    \"message\": {{message}}\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{serverus-domain}}/serverusapi/v1/sendchannelmessage",
+					"host": [
+						"{{serverus-domain}}"
+					],
+					"path": [
+						"serverusapi",
+						"v1",
+						"sendchannelmessage"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "serverus-domain",
+			"value": "http://localhost:80"
 		}
 	]
 }
