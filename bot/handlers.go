@@ -23,6 +23,7 @@ func (bot *Bot) addHandler(handler interface{}) func() {
 
 			if !bot.acceptingRequests {
 				session.ChannelMessageSend(message.ChannelID, SERVER_DOWN_MESSAGE)
+
 				return
 			}
 
@@ -40,16 +41,42 @@ func webhookListener(session *discordgo.Session, message *discordgo.MessageCreat
 
 	if message.ChannelID == chanID {
 
-		targetURL := ""
+		// targetURL := ""
 
-		for _, emb := range message.Embeds {
-			if emb.URL != "" {
-				targetURL = emb.URL
-				continue
-			}
+		// for _, emb := range message.Embeds {
+		// 	if emb.URL != "" {
+		// 		targetURL = emb.URL
+		// 		continue
+		// 	}
+		// }
+
+		// m, err := session.ChannelMessageSend(pubChanID, "Serverus received a webhook notification, this is the url "+targetURL)
+		// if err != nil {
+		// 	log.Println("Error sending message")
+		// }
+
+		file, err := os.Open("./images/test.png")
+		if err != nil {
+			log.Println("could not read image file")
 		}
 
-		session.ChannelMessageSend(pubChanID, "Serverus received a webhook notification, this is the url "+targetURL)
+		message, err := session.ChannelFileSend(chanID, "image.png", file)
+		if err != nil {
+			panic(err)
+		}
+
+		imageURL := ""
+		proxyURL := ""
+		for _, image := range message.Attachments {
+			imageURL = image.URL
+			proxyURL = image.ProxyURL
+			continue
+		}
+
+		session.ChannelMessageSendEmbed(pubChanID, &discordgo.MessageEmbed{Type: discordgo.EmbedTypeImage, Image: &discordgo.MessageEmbedImage{
+			URL:      imageURL,
+			ProxyURL: proxyURL,
+		}})
 	}
 }
 
