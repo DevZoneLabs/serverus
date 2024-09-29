@@ -18,6 +18,12 @@ func captureScreenshot(urlStr string) ([]byte, error) {
 	defer cancel()
 
 	var screenshot []byte
+	opts := append(chromedp.DefaultExecAllocatorOptions[:],
+		// Disable headless mode
+		chromedp.Flag("headless", false),
+		// Make sure the browser window is maximized
+		chromedp.Flag("start-maximized", true),
+	)
 
 	if err := chromedp.Run(
 		ctx, elementScreenshot(urlStr, &screenshot),
@@ -32,9 +38,11 @@ func captureScreenshot(urlStr string) ([]byte, error) {
 func elementScreenshot(urlStr string, res *[]byte) chromedp.Tasks {
 	return chromedp.Tasks{
 		chromedp.Navigate(urlStr),
-		// Capture Selector
-		// Click,
-		// etc
-		chromedp.Screenshot(`#content`, res, chromedp.NodeVisible),
+		chromedp.WaitVisible(`#fight-details--2-0 .last-pull-label`, chromedp.ByQuery),
+		chromedp.Click(`#fight-details--2-0 .last-pull-label`, chromedp.ByQuery),
+		chromedp.WaitVisible(`#filter-damage-done-tab`, chromedp.ByID),
+		chromedp.Click(`#filter-damage-done-tab`, chromedp.ByQuery),
+		chromedp.WaitVisible(`#main-table-0`, chromedp.ByID),
+		chromedp.Screenshot(`#main-table-0`, res, chromedp.ByID),
 	}
 }
