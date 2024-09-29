@@ -44,7 +44,7 @@ func (b *Bot) generateWowReport(msg *discordgo.MessageCreate) {
 	}
 
 	// Capture the screenshot
-	screenshot, err := captureScreenshot(msgEmbed.URL)
+	screenshot, reportTitle, err := captureScreenshot(msgEmbed.URL)
 	if err != nil {
 		log.Printf("bot - error capturing screenshot for target %s \n", msgEmbed.URL)
 		return
@@ -68,7 +68,7 @@ func (b *Bot) generateWowReport(msg *discordgo.MessageCreate) {
 	// Construct outbound message to public channel
 	outMsg := &discordgo.MessageEmbed{
 		URL:   msgEmbed.URL,
-		Title: msgEmbed.Title,
+		Title: reportTitle,
 		Type:  discordgo.EmbedTypeImage,
 		Image: &discordgo.MessageEmbedImage{
 			URL:      imageURL,

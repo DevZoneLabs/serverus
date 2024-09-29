@@ -3,6 +3,7 @@ package bot
 import (
 	"log"
 	"os"
+	"time"
 
 	"github.com/bwmarrin/discordgo"
 )
@@ -30,7 +31,7 @@ func (bot *Bot) addHandler(handler interface{}) func() {
 			h(session, message)
 		})
 	default:
-		log.Panic("Invalid Handler Function")
+		log.Panic("bot - invalid handler function")
 		return nil
 	}
 }
@@ -39,10 +40,15 @@ func (b *Bot) webhookListener() func(session *discordgo.Session, message *discor
 	privChanID := os.Getenv("PRIVATE_CHANNEL_ID")
 
 	return func(session *discordgo.Session, message *discordgo.MessageCreate) {
+
 		if message.ChannelID == privChanID && message.WebhookID != "" {
 
 			log.Println("bot - received a webhook message")
+
 			go func() {
+				// Add time for the report to load in external system
+				time.Sleep(30 * time.Second)
+
 				b.generateWowReport(message)
 			}()
 
