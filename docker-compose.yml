@@ -4,7 +4,6 @@ services:
   serverus-bot-server:
     container_name: serverus-bot-server
     build:
-      context: ./serverus-bot
       dockerfile: serverus-bot.dockerfile
     restart: always
     deploy:
