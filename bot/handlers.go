@@ -10,7 +10,7 @@ import (
 const SERVER_DOWN_MESSAGE = "Sorry! I cannot your request right now!"
 
 func (bot *Bot) registerHandlers() {
-	bot.addHandler(webhookListener)
+	bot.addHandler(bot.webhookListener())
 }
 
 func (bot *Bot) addHandler(handler interface{}) func() {
@@ -35,60 +35,24 @@ func (bot *Bot) addHandler(handler interface{}) func() {
 	}
 }
 
-func webhookListener(session *discordgo.Session, message *discordgo.MessageCreate) {
-	chanID := os.Getenv("PRIVATE_CHANNEL_ID")
-	pubChanID := os.Getenv("PUBLIC_CHANNEL_ID")
+func (b *Bot) webhookListener() func(session *discordgo.Session, message *discordgo.MessageCreate) {
+	privChanID := os.Getenv("PRIVATE_CHANNEL_ID")
 
-	if message.ChannelID == chanID {
+	return func(session *discordgo.Session, message *discordgo.MessageCreate) {
+		if message.ChannelID == privChanID && message.WebhookID != "" {
 
-		// targetURL := ""
+			log.Println("bot - received a webhook message")
+			go func() {
+				b.generateWowReport(message)
+			}()
 
-		// for _, emb := range message.Embeds {
-		// 	if emb.URL != "" {
-		// 		targetURL = emb.URL
-		// 		continue
-		// 	}
-		// }
-
-		// m, err := session.ChannelMessageSend(pubChanID, "Serverus received a webhook notification, this is the url "+targetURL)
-		// if err != nil {
-		// 	log.Println("Error sending message")
-		// }
-
-		file, err := os.Open("./images/test.png")
-		if err != nil {
-			log.Println("could not read image file")
 		}
-
-		message, err := session.ChannelFileSend(chanID, "image.png", file)
-		if err != nil {
-			panic(err)
-		}
-
-		imageURL := ""
-		proxyURL := ""
-		for _, image := range message.Attachments {
-			imageURL = image.URL
-			proxyURL = image.ProxyURL
-			continue
-		}
-
-		session.ChannelMessageSendEmbed(pubChanID, &discordgo.MessageEmbed{Type: discordgo.EmbedTypeImage, Image: &discordgo.MessageEmbedImage{
-			URL:      imageURL,
-			ProxyURL: proxyURL,
-		}})
 	}
 }
 
 // type ChannelInfo struct {
 // 	ID   string `json:"id"`
 // 	Name string `json:"name"`
-// }
-
-// func helloWorld(session *discordgo.Session, message *discordgo.MessageCreate) {
-// 	if message.Content == "Hello" {
-// 		session.ChannelMessageSend(message.ChannelID, "World!")
-// 	}
 // }
 
 // func channelInfo(session *discordgo.Session, message *discordgo.MessageCreate) {
