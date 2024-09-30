@@ -24,7 +24,7 @@ jobs:
         username: ${{ secrets.SERVER_USER }}
         key: ${{ secrets.SERVER_KEY }}
         port: ${{ secrets.SSH_PORT }}
-        source: "./serverus-bot"
+        source: "./"
         target: ${{ secrets.SERVERUS_PROJECT_PATH }}
       
     - name: Transfer docker-compose.yml to Server
