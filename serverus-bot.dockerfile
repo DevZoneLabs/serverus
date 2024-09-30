@@ -9,32 +9,29 @@ COPY . .
 # Build the Go binary
 RUN CGO_ENABLED=0 GOOS=linux go build -o serverusBotServer ./cmd/
 
-# Stage 2: Create a minimal image with Alpine and Google Chrome
-FROM alpine:latest
+# Stage 2: Create a Debian-based image with Google Chrome
+FROM debian:bullseye-slim
 
-# Install required dependencies and download Chrome
-RUN apk add --no-cache \
+# Install dependencies
+RUN apt-get update && apt-get install -y \
     wget \
-    nss \
-    freetype \
-    harfbuzz \
+    gnupg2 \
+    apt-transport-https \
     ca-certificates \
-    ttf-freefont \
-    libx11 \
-    libxrender \
-    libxrandr \
-    libxi \
-    mesa-gl \
+    curl \
     dumb-init \
-    fontconfig \
-    libc6-compat
+    --no-install-recommends && \
+    rm -rf /var/lib/apt/lists/*
 
 # Download and install Google Chrome
-RUN wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb && \
-apk add --no-cache --virtual .build-deps dpkg && \
-dpkg -i google-chrome-stable_current_amd64.deb || apk add -f && \
-rm google-chrome-stable_current_amd64.deb && \
-apk del .build-deps
+RUN wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | apt-key add - && \
+    sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" > /etc/apt/sources.list.d/google-chrome.list' && \
+    apt-get update && \
+    apt-get install -y google-chrome-stable && \
+    rm -rf /var/lib/apt/lists/*
+
+# Add Google Chrome to PATH
+ENV PATH="/usr/bin/google-chrome:${PATH}"
 
 # Set environment variable for Chrome binary
 ENV CHROME_BIN=/usr/bin/google-chrome
