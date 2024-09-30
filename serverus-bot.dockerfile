@@ -20,6 +20,9 @@ RUN chmod +x /app/serverusBotServer
 # Stage 2: Use chromedp/headless-shell for a minimal headless Chromium environment
 FROM chromedp/headless-shell:latest
 
+# Install CA certificates
+RUN apk --no-cache add ca-certificates
+
 # Set the path for the Chrome binary (chromedp/headless-shell already has this set up)
 ENV CHROME_BIN=/headless-shell/headless-shell
 
