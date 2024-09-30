@@ -5,7 +5,10 @@ on:
     branches:
       - main
     paths:
-      - 'serverus-bot/**'
+      - 'bot/**'
+      - 'cmd/**'
+      - 'api/**'
+      - 'serverus-bot.dockerfile'
       - 'docker-compose.yml'
 
 jobs:
