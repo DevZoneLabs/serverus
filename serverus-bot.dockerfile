@@ -14,14 +14,26 @@ COPY . .
 # Build the Go application
 RUN CGO_ENABLED=0 go build -o serverusBotServer ./cmd/
 
-# Stage 2: Use chromedp/headless-shell for a minimal headless Chromium environment
-FROM chromedp/headless-shell:latest
+# Stage 2: Use Alpine with Google Chrome
+FROM alpine:latest
 
-# Install CA certificates and curl
-RUN apk --no-cache add ca-certificates curl && update-ca-certificates
+# Install Google Chrome and necessary dependencies
+RUN apk add --no-cache \
+    chromium \
+    chromium-chromedriver \
+    nss \
+    freetype \
+    harfbuzz \
+    ca-certificates \
+    ttf-freefont \
+    libx11 \
+    libxrender \
+    libxrandr \
+    libxi \
+    mesa-gl
 
-# Test connectivity to Discord API
-RUN curl -v https://discord.com/api/v9/gateway
+# Set the path for Chrome binary
+ENV CHROME_BIN=/usr/bin/chromium-browser
 
 # Create the application directory in the new image
 RUN mkdir /app
