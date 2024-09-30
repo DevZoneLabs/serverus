@@ -2,6 +2,7 @@ package bot
 
 import (
 	"context"
+	"log"
 	"strings"
 	"time"
 
@@ -11,7 +12,7 @@ import (
 func captureScreenshot(urlStr string) ([]byte, string, error) {
 	// Create a headless Chrome context
 	opts := append(chromedp.DefaultExecAllocatorOptions[:],
-		chromedp.Flag("headless", false),              // Ensure headless mode is enabled
+		chromedp.Flag("headless", true),              // Ensure headless mode is enabled
 		chromedp.Flag("disable-gpu", true),           // Disable GPU use
 		chromedp.Flag("no-sandbox", true),            // Bypass OS security model
 		chromedp.Flag("disable-dev-shm-usage", true), // Prevent Chrome from crashing on some systems
@@ -20,7 +21,8 @@ func captureScreenshot(urlStr string) ([]byte, string, error) {
 	allocCtx, cancel := chromedp.NewExecAllocator(context.Background(), opts...)
 	defer cancel()
 
-	ctx, cancel := chromedp.NewContext(allocCtx)
+	ctx, cancel := chromedp.NewContext(allocCtx, 
+		chromedp.WithLogf(log.Printf))
 	defer cancel()
 
 	// create a timeout as a safety net to prevent any infinite wait loops
