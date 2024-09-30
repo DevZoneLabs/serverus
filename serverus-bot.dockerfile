@@ -30,4 +30,4 @@ RUN mkdir /app
 COPY --from=builder /app/serverusBotServer /app/
 
 # Set the command to run your Go application
-CMD ["/app/serverusBotServer"]
+ENTRYPOINT ["/app/serverusBotServer"]
