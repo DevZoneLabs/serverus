@@ -46,7 +46,7 @@ func (b *Bot) generateWowReport(msg *discordgo.MessageCreate) {
 	// Capture the screenshot
 	screenshot, reportTitle, err := captureScreenshot(msgEmbed.URL)
 	if err != nil {
-		log.Printf("bot - error capturing screenshot for target %s \n", msgEmbed.URL)
+		log.Printf("bot - error capturing screenshot for target %s , %s\n", msgEmbed.URL, err.Error())
 		return
 	}
 
@@ -54,7 +54,7 @@ func (b *Bot) generateWowReport(msg *discordgo.MessageCreate) {
 	log.Println("bot - capturing screenshot for ", msgEmbed.URL)
 	imageBackupMsg, err := b.session.ChannelFileSend(privChanID, "report.png", bytes.NewReader(screenshot))
 	if err != nil {
-		log.Printf("bot - error saving backup of screenshot %s \n", msgEmbed.URL)
+		log.Printf("bot - error saving backup of screenshot %s - %s \n", msgEmbed.URL, err.Error())
 		return
 	}
 
