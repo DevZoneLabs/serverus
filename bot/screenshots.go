@@ -11,7 +11,7 @@ import (
 func captureScreenshot(urlStr string) ([]byte, string, error) {
 	// Create a headless Chrome context
 	opts := append(chromedp.DefaultExecAllocatorOptions[:],
-		chromedp.Flag("headless", true),              // Ensure headless mode is enabled
+		chromedp.Flag("headless", false),              // Ensure headless mode is enabled
 		chromedp.Flag("disable-gpu", true),           // Disable GPU use
 		chromedp.Flag("no-sandbox", true),            // Bypass OS security model
 		chromedp.Flag("disable-dev-shm-usage", true), // Prevent Chrome from crashing on some systems

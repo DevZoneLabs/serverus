@@ -47,7 +47,9 @@ func (b *Bot) webhookListener() func(session *discordgo.Session, message *discor
 
 			go func() {
 				// Add time for the report to load in external system
+				log.Println("bot - sleeping before fetching image")
 				time.Sleep(30 * time.Second)
+				log.Println("bot - starting to generate report ")
 
 				b.generateWowReport(message)
 			}()
