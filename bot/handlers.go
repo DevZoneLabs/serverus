@@ -3,7 +3,6 @@ package bot
 import (
 	"log"
 	"os"
-	"time"
 
 	"github.com/bwmarrin/discordgo"
 )
@@ -12,6 +11,7 @@ const SERVER_DOWN_MESSAGE = "Sorry! I cannot your request right now!"
 
 func (bot *Bot) registerHandlers() {
 	bot.addHandler(bot.webhookListener())
+	bot.addHandler(bot.test())
 }
 
 func (bot *Bot) addHandler(handler interface{}) func() {
@@ -40,20 +40,23 @@ func (b *Bot) webhookListener() func(session *discordgo.Session, message *discor
 	privChanID := os.Getenv("PRIVATE_CHANNEL_ID")
 
 	return func(session *discordgo.Session, message *discordgo.MessageCreate) {
-
 		if message.ChannelID == privChanID && message.WebhookID != "" {
 
 			log.Println("bot - received a webhook message")
 
-			go func() {
-				// Add time for the report to load in external system
-				log.Println("bot - sleeping before fetching image")
-				time.Sleep(30 * time.Second)
-				log.Println("bot - starting to generate report ")
+			for _, emb := range message.Embeds {
+				go b.generateWowReport(emb.URL)
+				continue
+			}
 
-				b.generateWowReport(message)
-			}()
+		}
+	}
+}
 
+func (b *Bot) test() func(session *discordgo.Session, message *discordgo.MessageCreate) {
+	return func(session *discordgo.Session, message *discordgo.MessageCreate) {
+		if message.Content == "test" {
+			go b.generateWowReport("https://www.warcraftlogs.com/reports/HtnRQBzd8xDZg79a")
 		}
 	}
 }

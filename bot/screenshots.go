@@ -21,7 +21,7 @@ func captureScreenshot(urlStr string) ([]byte, string, error) {
 	allocCtx, cancel := chromedp.NewExecAllocator(context.Background(), opts...)
 	defer cancel()
 
-	ctx, cancel := chromedp.NewContext(allocCtx, 
+	ctx, cancel := chromedp.NewContext(allocCtx,
 		chromedp.WithLogf(log.Printf))
 	defer cancel()
 
