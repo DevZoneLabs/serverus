@@ -10,6 +10,8 @@ on:
       - 'api/**'
       - 'serverus-bot.dockerfile'
       - 'docker-compose.yml'
+  workflow_dispatch:
+
 
 jobs:
   deploy:
