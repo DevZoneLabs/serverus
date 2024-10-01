@@ -56,7 +56,7 @@ func (b *Bot) webhookListener() func(session *discordgo.Session, message *discor
 func (b *Bot) test() func(session *discordgo.Session, message *discordgo.MessageCreate) {
 	return func(session *discordgo.Session, message *discordgo.MessageCreate) {
 		if message.Content == "test" {
-			go b.generateWowReport("https://www.warcraftlogs.com/reports/HtnRQBzd8xDZg79a")
+			go b.generateWowReport(`https://www.warcraftlogs.com/reports/HtnRQBzd8xDZg79a`)
 		}
 	}
 }

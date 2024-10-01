@@ -1,5 +1,3 @@
-version: '3.9'
-
 services:
   serverus-bot-server:
     container_name: serverus-bot-server
