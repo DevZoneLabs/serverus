@@ -14,7 +14,6 @@ COPY . .
 # Build the Go application
 RUN CGO_ENABLED=0 go build -o serverusBotServer ./cmd/
 
-# Stage 2: Use Alpine with Google Chrome
 FROM chromedp/headless-shell:latest
 
 RUN apt-get update; apt install dumb-init -y
@@ -22,10 +21,9 @@ RUN apt-get update; apt install dumb-init -y
 # Create the application directory in the new image
 RUN mkdir /app
 
-ENTRYPOINT ["dumb-init", "--"]
-
 # Copy the compiled Go binary from the builder stage
 COPY --from=builder /app/serverusBotServer /app/
 
-# Set the command to run your Go application
-cmd ["/app/serverusBotServer"]
+ENTRYPOINT ["dumb-init", "--"]
+
+CMD ["/app/serverusBotServer"]
