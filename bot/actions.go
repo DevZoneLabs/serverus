@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"log"
 	"os"
+	"time"
 
 	"github.com/bwmarrin/discordgo"
 )
@@ -26,35 +27,32 @@ func (b *Bot) SendChannelMessage(channel string, message string) (*string, error
 	return &msg.ID, nil
 }
 
-func (b *Bot) generateWowReport(msg *discordgo.MessageCreate) {
+func (b *Bot) generateWowReport(urlStr string) {
 	// TODO - Add these channel as part of the bot configuration
 	privChanID := os.Getenv("PRIVATE_CHANNEL_ID")
 	pubChanID := os.Getenv("PUBLIC_CHANNEL_ID")
 
-	// Check for the internal message embed. It is always going to be one
-	// since the channel will be waiting for webhook calls.
-	// We could modify this in the future to determine which
-	// webhook comes from
-	msgEmbed := &discordgo.MessageEmbed{}
-	for _, emb := range msg.Embeds {
-		msgEmbed = emb
-	}
-	if msgEmbed == nil || msgEmbed.URL == "" {
+	if urlStr == "" {
 		return
 	}
 
+	log.Println("wowReport - initializing...")
+	log.Println("wowReport - sleeping to await page load")
+	time.Sleep(30 * time.Second)
+
 	// Capture the screenshot
-	screenshot, reportTitle, err := captureScreenshot(msgEmbed.URL)
+	log.Println("wowReport - capturing screenshot")
+	screenshot, reportTitle, err := captureScreenshot(urlStr)
 	if err != nil {
-		log.Printf("bot - error capturing screenshot for target %s , %s\n", msgEmbed.URL, err.Error())
+		log.Printf("bot - error capturing screenshot for target %s , %s\n", urlStr, err.Error())
 		return
 	}
 
 	// Upload the screenshot
-	log.Println("bot - capturing screenshot for ", msgEmbed.URL)
-	imageBackupMsg, err := b.session.ChannelFileSend(privChanID, "report.png", bytes.NewReader(screenshot))
+	log.Println("wowReport - uploading screenshot to discord backup")
+	imageBackupMsg, err := b.session.ChannelFileSend(privChanID, reportTitle+".png", bytes.NewReader(screenshot))
 	if err != nil {
-		log.Printf("bot - error saving backup of screenshot %s - %s \n", msgEmbed.URL, err.Error())
+		log.Printf("bot - error saving backup of screenshot %s - %s \n", urlStr, err.Error())
 		return
 	}
 
@@ -67,7 +65,7 @@ func (b *Bot) generateWowReport(msg *discordgo.MessageCreate) {
 
 	// Construct outbound message to public channel
 	outMsg := &discordgo.MessageEmbed{
-		URL:   msgEmbed.URL,
+		URL:   urlStr,
 		Title: reportTitle,
 		Type:  discordgo.EmbedTypeImage,
 		Image: &discordgo.MessageEmbedImage{
@@ -77,5 +75,8 @@ func (b *Bot) generateWowReport(msg *discordgo.MessageCreate) {
 	}
 
 	// Publish the message
+	log.Println("wowReport - publishing the message")
 	b.session.ChannelMessageSendEmbed(pubChanID, outMsg)
+
+	log.Println("wowReport - published")
 }

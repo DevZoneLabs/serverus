@@ -2,6 +2,7 @@ package bot
 
 import (
 	"context"
+	"log"
 	"strings"
 	"time"
 
@@ -20,7 +21,8 @@ func captureScreenshot(urlStr string) ([]byte, string, error) {
 	allocCtx, cancel := chromedp.NewExecAllocator(context.Background(), opts...)
 	defer cancel()
 
-	ctx, cancel := chromedp.NewContext(allocCtx)
+	ctx, cancel := chromedp.NewContext(allocCtx,
+		chromedp.WithLogf(log.Printf))
 	defer cancel()
 
 	// create a timeout as a safety net to prevent any infinite wait loops
