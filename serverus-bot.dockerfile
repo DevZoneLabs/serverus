@@ -16,7 +16,10 @@ RUN CGO_ENABLED=0 go build -o serverusBotServer ./cmd/
 
 FROM docker.io/chromedp/headless-shell:latest
 
-RUN apt-get update; apt install dumb-init
+# Install the dependencies
+RUN apt-get update && \
+    apt-get install -y ca-certificates dumb-init unzip zip wget zlib1g-dev openssh-client && \
+    rm -rf /var/lib/apt/lists/*
 
 # Create the application directory in the new image
 RUN mkdir /app

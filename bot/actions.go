@@ -36,12 +36,10 @@ func (b *Bot) generateWowReport(urlStr string) {
 		return
 	}
 
-	log.Println("wowReport - initializing...")
 	log.Println("wowReport - sleeping to await page load")
 	time.Sleep(30 * time.Second)
 
 	// Capture the screenshot
-	log.Println("wowReport - capturing screenshot")
 	screenshot, reportTitle, err := captureScreenshot(urlStr)
 	if err != nil {
 		log.Printf("bot - error capturing screenshot for target %s , %s\n", urlStr, err.Error())
