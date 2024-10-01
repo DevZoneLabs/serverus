@@ -14,9 +14,9 @@ COPY . .
 # Build the Go application
 RUN CGO_ENABLED=0 go build -o serverusBotServer ./cmd/
 
-FROM chromedp/headless-shell:latest
+FROM docker.io/chromedp/headless-shell:latest
 
-RUN apt-get update; apt install dumb-init -y
+RUN apt-get update; apt install dumb-init
 
 # Create the application directory in the new image
 RUN mkdir /app
