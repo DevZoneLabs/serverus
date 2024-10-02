@@ -8,11 +8,11 @@ import (
 )
 
 type Bot struct {
-	session *discordgo.Session
+	session           *discordgo.Session
 	acceptingRequests bool
 }
 
-func NewBot(botToken string) *Bot{
+func NewBot(botToken string) *Bot {
 
 	session, err := discordgo.New("Bot " + botToken)
 	if err != nil {
@@ -23,7 +23,7 @@ func NewBot(botToken string) *Bot{
 
 	return &Bot{
 		acceptingRequests: true,
-		session: session,
+		session:           session,
 	}
 }
 
@@ -41,7 +41,7 @@ func (bot *Bot) Run(ctx context.Context) {
 
 	log.Println("Bot is now online!")
 
-	<- ctx.Done()
+	<-ctx.Done()
 
 	if err := bot.session.Close(); err != nil {
 		log.Panic("Error shutting down the Bot: ", err)

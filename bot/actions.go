@@ -27,6 +27,10 @@ func (b *Bot) SendChannelMessage(channel string, message string) (*string, error
 	return &msg.ID, nil
 }
 
+// This function will scrape the corresponding 
+// WarCraftLogs Url and generate a screenshot of the 
+// damage report to later embed in the specified 
+// channel.
 func (b *Bot) generateWowReport(urlStr string) {
 	// TODO - Add these channel as part of the bot configuration
 	privChanID := os.Getenv("PRIVATE_CHANNEL_ID")
