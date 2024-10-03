@@ -35,6 +35,7 @@ func (bot *Bot) addHandler(handler interface{}) func() {
 	}
 }
 
+
 func (b *Bot) webhookListener() func(session *discordgo.Session, message *discordgo.MessageCreate) {
 	privChanID := os.Getenv("PRIVATE_CHANNEL_ID")
 
