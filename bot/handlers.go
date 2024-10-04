@@ -11,7 +11,6 @@ const SERVER_DOWN_MESSAGE = "Sorry! I cannot your request right now!"
 
 func (bot *Bot) registerHandlers() {
 	bot.addHandler(bot.webhookListener())
-	bot.addHandler(bot.test())
 }
 
 func (bot *Bot) addHandler(handler interface{}) func() {
@@ -53,13 +52,6 @@ func (b *Bot) webhookListener() func(session *discordgo.Session, message *discor
 	}
 }
 
-func (b *Bot) test() func(session *discordgo.Session, message *discordgo.MessageCreate) {
-	return func(session *discordgo.Session, message *discordgo.MessageCreate) {
-		if message.Content == "test" {
-			go b.generateWowReport(`https://www.warcraftlogs.com/reports/HtnRQBzd8xDZg79a`)
-		}
-	}
-}
 
 // type ChannelInfo struct {
 // 	ID   string `json:"id"`
