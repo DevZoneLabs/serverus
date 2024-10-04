@@ -11,6 +11,7 @@ const SERVER_DOWN_MESSAGE = "Sorry! I cannot your request right now!"
 
 func (bot *Bot) registerHandlers() {
 	bot.addHandler(bot.webhookListener())
+	bot.addHandler(bot.test())
 }
 
 func (bot *Bot) addHandler(handler interface{}) func() {
@@ -35,7 +36,7 @@ func (bot *Bot) addHandler(handler interface{}) func() {
 	}
 }
 
-func (b *Bot) webhookListener() func(session *discordgo.Session, message *discordgo.MessageCreate) {
+func (b *Bot) webhookListener() func(*discordgo.Session, *discordgo.MessageCreate) {
 	privChanID := os.Getenv("PRIVATE_CHANNEL_ID")
 
 	return func(session *discordgo.Session, message *discordgo.MessageCreate) {
@@ -52,6 +53,19 @@ func (b *Bot) webhookListener() func(session *discordgo.Session, message *discor
 	}
 }
 
+func (b *Bot) test() func(*discordgo.Session, *discordgo.MessageCreate) {
+	privChanID := os.Getenv("PRIVATE_CHANNEL_ID")
+
+	return func(session *discordgo.Session, message *discordgo.MessageCreate) {
+		if message.ChannelID == privChanID && message.Content == "test" {
+
+			log.Println("bot - received a webhook message")
+
+			go b.generateWowReport(`https://www.warcraftlogs.com/reports/zrvdj8RDNXQCwYfP`)
+
+		}
+	}
+}
 
 // type ChannelInfo struct {
 // 	ID   string `json:"id"`
