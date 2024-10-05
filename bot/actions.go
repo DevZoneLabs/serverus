@@ -27,9 +27,9 @@ func (b *Bot) SendChannelMessage(channel string, message string) (*string, error
 	return &msg.ID, nil
 }
 
-// This function will scrape the corresponding 
-// WarCraftLogs Url and generate a screenshot of the 
-// damage report to later embed in the specified 
+// This function will scrape the corresponding
+// WarCraftLogs Url and generate a screenshot of the
+// damage report to later embed in the specified
 // channel.
 func (b *Bot) generateWowReport(urlStr string) {
 	// TODO - Add these channel as part of the bot configuration
@@ -41,7 +41,7 @@ func (b *Bot) generateWowReport(urlStr string) {
 	}
 
 	log.Println("wowReport - sleeping to await page load")
-	time.Sleep(30 * time.Second)
+	time.Sleep(45 * time.Second)
 
 	// Capture the screenshot
 	screenshot, reportTitle, err := captureScreenshot(urlStr)
