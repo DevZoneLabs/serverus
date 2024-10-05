@@ -61,7 +61,7 @@ func (b *Bot) test() func(*discordgo.Session, *discordgo.MessageCreate) {
 
 			log.Println("bot - received a webhook message")
 
-			go b.generateWowReport(`https://www.warcraftlogs.com/reports/L6K4VTz28nkty13M`)
+			go b.generateWowReport(`https://www.warcraftlogs.com/reports/8FzABbWxwrYp47Lj`)
 
 		}
 	}
