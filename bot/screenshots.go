@@ -56,8 +56,8 @@ func elementScreenshot(urlStr string, res *[]byte, title *string) chromedp.Tasks
 		chromedp.Click(`#filter-damage-done-tab`, chromedp.ByQuery),
 		chromedp.Text(`#filter-fight-boss-text`, title, chromedp.ByID),
 		chromedp.WaitReady(`#main-table-0`, chromedp.ByID),
-		chromedp.Evaluate(`document.querySelector("#ap-ea8a4fe5-container").remove();`, nil),
-		chromedp.Evaluate(`document.querySelector("#corner_ad_video").remove()`, nil),
+		chromedp.Evaluate(`document.querySelector("#ap-ea8a4fe5-container")?.remove();`, nil),
+		chromedp.Evaluate(`document.querySelector("#corner_ad_video")?.remove()`, nil),
 		chromedp.Screenshot(`#main-table-0`, res, chromedp.ByID),
 	}
 }
