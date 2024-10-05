@@ -52,7 +52,7 @@ func captureScreenshot(urlStr string) ([]byte, string, error) {
 func elementScreenshot(urlStr string, res *[]byte, title *string) chromedp.Tasks {
 	return chromedp.Tasks{
 		chromedp.Navigate(urlStr),
-		chromedp.Click(`#fight-details--2-0 .last-pull-label`, chromedp.ByQuery),
+		chromedp.Click(`#fight-details-header--2-0 .all-fights-entry:last-child`, chromedp.ByQuery),
 		chromedp.Click(`#filter-damage-done-tab`, chromedp.ByQuery),
 		chromedp.Text(`#filter-fight-boss-text`, title, chromedp.ByID),
 		chromedp.WaitReady(`#main-table-0`, chromedp.ByID),
