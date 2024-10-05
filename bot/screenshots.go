@@ -52,8 +52,9 @@ func captureScreenshot(urlStr string) ([]byte, string, error) {
 func elementScreenshot(urlStr string, res *[]byte, title *string) chromedp.Tasks {
 	return chromedp.Tasks{
 		chromedp.Navigate(urlStr),
+		chromedp.WaitReady(`#fight-details-header--2-0`, chromedp.ByQuery),
 		chromedp.Click(`#fight-details-header--2-0 .all-fights-entry:last-child`, chromedp.ByQuery),
-		chromedp.Click(`#filter-damage-done-tab`, chromedp.ByQuery),
+		chromedp.Click(`#filter-damage-done-tab`, chromedp.ByID),
 		chromedp.Text(`#filter-fight-boss-text`, title, chromedp.ByID),
 		chromedp.WaitReady(`#main-table-0`, chromedp.ByID),
 		chromedp.Evaluate(`document.querySelector("#ap-ea8a4fe5-container")?.remove();`, nil),
