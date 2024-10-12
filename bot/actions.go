@@ -41,7 +41,7 @@ func (b *Bot) generateWowReport(urlStr string) {
 	}
 
 	log.Println("wowReport - sleeping to await page load")
-	time.Sleep(45 * time.Second)
+	time.Sleep(5 * time.Minute)
 
 	// Capture the screenshot
 	screenshot, reportTitle, err := captureScreenshot(urlStr)
