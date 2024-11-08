@@ -52,13 +52,18 @@ func captureScreenshot(urlStr string) ([]byte, string, error) {
 func elementScreenshot(urlStr string, res *[]byte, title *string) chromedp.Tasks {
 	return chromedp.Tasks{
 		chromedp.Navigate(urlStr),
+		chromedp.Sleep(time.Duration(2 * time.Second)),
 		chromedp.WaitReady(`#fight-details-header--2-0`, chromedp.ByQuery),
 		chromedp.Click(`#fight-details-header--2-0 .all-fights-entry:last-child`, chromedp.ByQuery),
+		chromedp.Sleep(time.Duration(2 * time.Second)),
 		chromedp.Click(`#filter-damage-done-tab`, chromedp.ByID),
 		chromedp.Text(`#filter-fight-boss-text`, title, chromedp.ByID),
+		chromedp.Sleep(time.Duration(3 * time.Second)),
 		chromedp.WaitReady(`#main-table-0`, chromedp.ByID),
+		chromedp.Sleep(time.Duration(2 * time.Second)),
 		chromedp.Evaluate(`document.querySelector("#ap-ea8a4fe5-container")?.remove();`, nil),
 		chromedp.Evaluate(`document.querySelector("#corner_ad_video")?.remove()`, nil),
+		chromedp.Sleep(time.Duration(3 * time.Second)),
 		chromedp.Screenshot(`#main-table-0`, res, chromedp.ByID),
 	}
 }

@@ -57,11 +57,11 @@ func (b *Bot) test() func(*discordgo.Session, *discordgo.MessageCreate) {
 	privChanID := os.Getenv("PRIVATE_CHANNEL_ID")
 
 	return func(session *discordgo.Session, message *discordgo.MessageCreate) {
-		if message.ChannelID == privChanID && message.Content == "test" {
+		if message.ChannelID == privChanID && message.Content == "Hello?" {
 
 			log.Println("bot - received a webhook message")
 
-			go b.generateWowReport(`https://www.warcraftlogs.com/reports/8FzABbWxwrYp47Lj`)
+			b.SendChannelMessage(privChanID, "Hey I am listening!")
 
 		}
 	}
