@@ -74,7 +74,7 @@ func (bot *Bot) monitorHeartbeats() {
 			// Check if the heartbeat is received
 			if !bot.session.DataReady {
 				log.Println("No heartbeat ACK received, reconnecting...")
-				err := b.reconnect()
+				err := bot.reconnect()
 				if err != nil {
 					log.Printf("Bot failed to reconnect: %v", err)
 				}
